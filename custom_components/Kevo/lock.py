@@ -72,10 +72,12 @@ class KevoDevice(LockDevice):
 
     def lock(self, **kwargs):
         """Instruct the lock to lock."""
+        self._kevo.EndSession()
         self._kevo.Lock()
 
     def unlock(self, **kwargs):
         """Instruct the lock to unlock."""
+        self._kevo.EndSession()
         self._kevo.Unlock()
 
     def update(self):
