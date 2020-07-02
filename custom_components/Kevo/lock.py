@@ -7,6 +7,8 @@ from homeassistant.components.lock import LockDevice, PLATFORM_SCHEMA
 from homeassistant.const import CONF_EMAIL, CONF_PASSWORD, STATE_LOCKED, STATE_UNLOCKED
 import homeassistant.helpers.config_validation as cv
 
+from pykevoplus import KevoLock, KevoLockSession
+
 _LOGGER = logging.getLogger(__name__)
 CONF_LOCK_ID = "lock_id"
 CONF_MAX_RETRIES = "max_retries"
@@ -23,7 +25,6 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
 
 def setup_platform(hass, config, add_devices, discovery_info=None):
     """Setup the Kevo platform."""
-    from pykevoplus import KevoLock, KevoLockSession
 
     # Assign configuration variables. The configuration check takes care they are
     # present.
