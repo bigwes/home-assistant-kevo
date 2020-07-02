@@ -64,6 +64,7 @@ class KevoDevice(LockDevice):
         self._name = kevo.name
         self._state = None
         self._optimistic = optimistic
+        self._force_update = False
 
     @property
     def name(self):
@@ -81,6 +82,7 @@ class KevoDevice(LockDevice):
             self._kevo.Lock()
             if self._optimistic:
                 self._state = "locked"
+                self._force_update = True
             else:
                 self._state = self._kevo.GetBoltState().lower()
 
@@ -90,6 +92,7 @@ class KevoDevice(LockDevice):
             self._kevo.Unlock()
             if self._optimistic:
                 self._state = "unlocked"
+                self._force_update = True
             else:
                 self._state = self._kevo.GetBoltState().lower()
 
@@ -98,6 +101,7 @@ class KevoDevice(LockDevice):
 
         This is the only method that should fetch new data for Home Assistant.
         """
-        if self._state != "locked":
+        if (self._state != "locked") or self._force_update:
             with KevoLockSession(self._kevo):
                 self._state = self._kevo.GetBoltState().lower()
+                self._force_update = False
