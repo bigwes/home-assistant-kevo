@@ -3,7 +3,7 @@ import time
 import voluptuous as vol
 
 # Import the device class from the component that you want to support
-from homeassistant.components.lock import LockDevice, PLATFORM_SCHEMA
+from homeassistant.components.lock import LockEntity, PLATFORM_SCHEMA
 from homeassistant.const import CONF_EMAIL, CONF_PASSWORD, STATE_LOCKED, STATE_UNLOCKED
 import homeassistant.helpers.config_validation as cv
 
@@ -52,7 +52,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
     
     add_devices([KevoDevice(kevo)])
 
-class KevoDevice(LockDevice):
+class KevoDevice(LockEntity):
     """Representation of a Kevo Lock."""
 
     def __init__(self, kevo):
